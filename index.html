@@ -1,0 +1,122 @@
+l<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak-Tebakan Komputer Neon</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #000 60%, #001133 100%);
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    color: #0ff;
+  }
+  .game {
+    text-align: center;
+    padding: 30px;
+    border: 2px solid #0ff;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 20, 0.6);
+    box-shadow: 0 0 25px #0ff, 0 0 50px #00f;
+    animation: pulse 3s infinite alternate;
+  }
+  @keyframes pulse {
+    from { box-shadow: 0 0 20px #0ff; }
+    to { box-shadow: 0 0 50px #00f; }
+  }
+  h1 {
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #0ff;
+  }
+  input {
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background: rgba(0,0,50,0.8);
+    color: #0ff;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg,#0ff,#00f);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #0ff;
+  }
+  .result {
+    margin-top: 20px;
+    font-size: 18px;
+    text-shadow: 0 0 10px #0ff;
+  }
+</style>
+</head>
+<body>
+<div class="game">
+  <h1>💻 Tebak-Tebakan Komputer</h1>
+  <p id="question">Loading...</p>
+  <input type="text" id="answer" placeholder="Tulis jawaban...">
+  <br>
+  <button onclick="checkAnswer()">Jawab</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const questions = [
+  {q: "Komponen komputer yang disebut 'otak' adalah?", a: "cpu"},
+  {q: "Alat untuk menyimpan data secara permanen?", a: "harddisk"},
+  {q: "Perangkat untuk menampilkan gambar dari komputer?", a: "monitor"},
+  {q: "RAM itu singkatan dari?", a: "random access memory"},
+  {q: "Sistem operasi paling populer buatan Microsoft?", a: "windows"}
+];
+
+let current = 0;
+const questionEl = document.getElementById("question");
+const resultEl = document.getElementById("result");
+const answerEl = document.getElementById("answer");
+
+function loadQuestion() {
+  questionEl.textContent = questions[current].q;
+  resultEl.textContent = "";
+  answerEl.value = "";
+  answerEl.focus();
+}
+
+function checkAnswer() {
+  let userAnswer = answerEl.value.trim().toLowerCase();
+  if(userAnswer === questions[current].a){
+    resultEl.innerHTML = "✅ Benar!";
+    setTimeout(() => {
+      current++;
+      if(current < questions.length){
+        loadQuestion();
+      } else {
+        questionEl.textContent = "🎉 Kamu berhasil menjawab semua!";
+        resultEl.textContent = "";
+        answerEl.style.display = "none";
+      }
+    }, 1000);
+  } else {
+    resultEl.innerHTML = "❌ Salah, coba lagi!";
+  }
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
